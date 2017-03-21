@@ -1,14 +1,19 @@
 module HueHome
   class Client
-    attr_reader :username
+    attr_reader :username, :command_line
 
-    def initialize(username = nil)
+    def initialize(username: nil, command_line: false)
+      @command_line = command_line
       @username = username || get_username
       raise ArgumentError.new("You must provide a username in the configuration or in new") unless @username
     end
 
     def lights
       bridge_collection.lights
+    end
+
+    def groups
+      bridge_collection.groups
     end
 
     def bridges
@@ -20,7 +25,13 @@ module HueHome
     end
 
     def get_username
-      HueHome.configuration.username
+      username_fetcher.current_username
+    end
+
+    def username_fetcher
+      @username_fetcher ||= User::Fetcher.new(
+        command_line: command_line
+      )
     end
   end
 end

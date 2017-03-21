@@ -1,20 +1,20 @@
 module HueHome
-  module Light
+  module Group
     module State
       class Handler
-        attr_reader :bridge, :light, :initial_state
+        attr_reader :bridge, :group, :initial_state
         include HueHome::Connection
         include HueHome::History::Helper
-        url(:set_state, :put) { |current_user_id, id| "/api/#{current_user_id}/lights/#{id}/state" }
+        url(:set_state, :put) { |current_user_id, id| "/api/#{current_user_id}/groups/#{id}/action" }
         BRIGHTNESS_RANGE = (1..254).to_a
         HUE_RANGE = (0..65535).to_a
         SATURATION_RANGE = (0..254).to_a
         CT_RANGE = (153..500).to_a
         TRANSITION_TIME_RANGE = (1..30).to_a
 
-        def initialize(bridge:, light:, initial_state:)
+        def initialize(bridge:, group:, initial_state:)
           @bridge = bridge
-          @light = light
+          @group = group
           @initial_state = initial_state
           add_history_item(initial_state)
         end
@@ -78,7 +78,7 @@ module HueHome
         end
 
         def id
-          @id ||= light.id
+          @id ||= group.id
         end
 
         def current_user_id

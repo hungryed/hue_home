@@ -11,10 +11,10 @@ module HueHome
     end
 
     DEFAULTS = {
-      :debug => true,
+      :debug => false,
       :storage_path_relative_to_home => ".hue",
       :store_light_state_history => true,
-      :username => "joe",
+      :username => nil,
     }
 
     attr_accessor *DEFAULTS.keys

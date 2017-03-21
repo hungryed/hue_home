@@ -33,7 +33,8 @@ module HueHome
       end
 
       def find_user(username)
-        parsed_users[username]["internal_id"]
+        user = parsed_users[username]
+        user && user["internal_id"]
       end
 
       def create_user(username)
@@ -43,7 +44,7 @@ module HueHome
           }.to_json
         end
         parsed_response = parse_and_validate_response(response)
-        user_id = parsed_response["success"]["username"]
+        user_id = parsed_response[0]["success"]["username"]
         write_to_file!({
           username => {
             internal_id: user_id

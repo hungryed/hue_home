@@ -30,7 +30,23 @@ module HueHome
         lights_collection.lights
       end
 
+      def groups
+        groups_collection.groups
+      end
+
+      def lights_by_ids(light_ids)
+        lights.select { |light|
+          light_ids.include?(light.id)
+        }
+      end
+
       private
+
+      def groups_collection
+        @groups_collection ||= Group::Collection.new(
+          bridge: self
+        )
+      end
 
       def lights_collection
         @lights_collection ||= Light::Collection.new(

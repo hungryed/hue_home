@@ -20,6 +20,10 @@ module HueHome
         bridges.map(&:lights).flatten
       end
 
+      def groups
+        bridges.map(&:groups).flatten
+      end
+
       private
 
       def build_bridges
